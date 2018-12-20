@@ -124,18 +124,18 @@ export default{
           time:this.dataUtil.formatTime1(new Date())
         }
 
-        console.log(JSON.stringify(params));
+       // console.log(JSON.stringify(params));
 
         var encryptParams = {
           evalue:this.$encrypt(JSON.stringify(params))
         }
 
-        console.log(this.$encrypt(JSON.stringify(params)))
+      //  console.log(this.$encrypt(JSON.stringify(params)))
 
 
         this.http.post(this.api.baseUrl+this.api.SetEMValuePTAndCT,encryptParams)
           .then(result=>{
-            console.log(result)
+          //  console.log(result)
             this.loading = false
             if (result.status == '成功') {
               this.$message({
@@ -171,19 +171,19 @@ export default{
 				time:this.dataUtil.formatTime1(new Date())
 			}
 
-			console.log(JSON.stringify(params));
+		//	console.log(JSON.stringify(params));
 
               var encryptParams = {
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-              console.log(this.$encrypt(JSON.stringify(params)))
+             // console.log(this.$encrypt(JSON.stringify(params)))
 
 
             this.http.post(this.api.baseUrl+this.api.ReadEMValuePTAndCT,encryptParams)
             .then(result=>{
             	this.loading = false
-            	console.log(result)
+            //	console.log(result)
             	if (result.status == '成功') {
             		this.$message({
                         type: 'success',
@@ -252,19 +252,19 @@ export default{
           time:this.dataUtil.formatTime1(new Date())
         }
 
-        console.log(JSON.stringify(params));
+       // console.log(JSON.stringify(params));
 
         var encryptParams = {
           evalue:this.$encrypt(JSON.stringify(params))
         }
 
-        console.log(this.$encrypt(JSON.stringify(params)))
+       // console.log(this.$encrypt(JSON.stringify(params)))
 
 
         this.http.post(this.api.baseUrl+this.api.SetEMValueRatesPrice,encryptParams)
           .then(result=>{
             this.loading = false
-            console.log(result)
+          //  console.log(result)
             if (result.status == '成功') {
               this.$message({
                 type: 'success',
@@ -301,19 +301,19 @@ export default{
 				time:this.dataUtil.formatTime1(new Date())
 			}
 
-			console.log(JSON.stringify(params));
+		//	console.log(JSON.stringify(params));
 
               var encryptParams = {
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-              console.log(this.$encrypt(JSON.stringify(params)))
+            //  console.log(this.$encrypt(JSON.stringify(params)))
 
 
             this.http.post(this.api.baseUrl+this.api.ReadEMValueRatesPrice,encryptParams)
             .then(result=>{
             	this.loading = false
-            	console.log(result)
+            //	console.log(result)
             	if (result.status == '成功') {
             		this.$message({
                         type: 'success',
@@ -343,7 +343,7 @@ export default{
       			 if (node.level == '6') {
       				this.HouseName = node.label
       				this.HouseRegionCode = node.code
-      				console.log(this.HouseRegionCode)
+      				//console.log(this.HouseRegionCode)
       			}
 
       		}
@@ -361,7 +361,7 @@ export default{
       				for (var k = 0; k < houses.length; k++) {
       					// console.log('遍历'+houses[K].code)
       					if (houses[k].code == this.HouseRegionCode) {
-      						console.log('匹配到')
+      					//	console.log('匹配到')
       						return fifthNames[j].label
       					}
 
@@ -383,7 +383,7 @@ export default{
 		},
 		HouseRegionCode(newVal){
 			this.FifthRegionName = this.findFifthRegionNameByHouseName()
-			console.log('五级名'+this.FifthRegionName)
+			//console.log('五级名'+this.FifthRegionName)
 		}
 	},
 	activated(){

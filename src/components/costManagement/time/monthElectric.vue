@@ -16,7 +16,7 @@
 		          <el-form-item  v-for="(item,index) in tableHead" v-if="index > 8" :label="item.label" >
 		            <span>{{ props.row[item.id] }}</span>
 		          </el-form-item>
-		     
+
 		        </el-form>
 		      </template>
 		    </el-table-column> -->
@@ -26,7 +26,7 @@
 		      :label="item.label"
 		      :prop="item.id"
 		      :width="item.width"
-		      >
+		      :key="index">
 		    </el-table-column>
 		  </el-table>
 
@@ -41,7 +41,7 @@
 	  	  </div>
 	</div>
 </template>
-<script> 
+<script>
 export default{
 	data(){
 		return{
@@ -105,14 +105,14 @@ export default{
 			if (columnIndex == 6) {
 				return 'normal'
 			}
-	
+
 		},
 
         /**
 		*分页控制器的方法
 		*/
       	handleCurrentChange(val) {
-        	console.log(`当前页: ${val}`);
+        //	console.log(`当前页: ${val}`);
         	this.showTableData = this.partOfTableData.slice((val-1)*10, val *10)
       	},
 
@@ -127,7 +127,7 @@ export default{
       		window.print();
       		// document.body.innerHTML = oldstr
       		window.location.reload()
-      		
+
       		// return false
       	}
 
@@ -136,13 +136,14 @@ export default{
 		this.partOfTableData = this.tableData
 		this.showTableData = this.partOfTableData.slice(0,10)
 	}
-} 
+}
 </script>
 
 <style scoped>
 .right{
 	display: inline-block;
-	float: right;
+
+	/* float: right; */
 }
 .el-table{
 	margin-top: 10px;

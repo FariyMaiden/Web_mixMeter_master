@@ -3,7 +3,7 @@
 	<div v-loading="loading" element-loading-text="拼命加载中">
 		<div class="condition">
 			<div class="block left">
-			   
+
 				<div class="block left">
 				    <el-date-picker
 				      v-model="startDate"
@@ -27,8 +27,8 @@
 
 	  		<el-button type="primary" style="margin-left:20px;" @click='checkFreezingData'>查询</el-button>
 		</div>
-		
-		
+
+
 			<el-table
 		    :data="showTableData"
 		    :header-cell-class-name="tableheaderClassName"
@@ -39,22 +39,22 @@
 		    <el-table-column type="expand">
 		      <template slot-scope="props">
 		        <el-form label-position="left" inline class="demo-table-expand" >
-		          <el-form-item  v-for="(item,index) in tableHead" v-if="index > 7" :label="item.label" >
+		          <el-form-item  v-for="(item,index) in tableHead" v-if="index > 7" :label="item.label" :key="index">
 		            <span>{{ props.row[item.id] }}</span>
 		          </el-form-item>
-		     
+
 		        </el-form>
 		      </template>
 		    </el-table-column>
 
 		    <el-table-column
 		    v-for="(item,index) in tableHead"
-		    v-if="index <= 7" 
+		    v-if="index <= 7"
 		      :label="item.label"
 		      :prop="item.id"
 		      :width="item.width"
-		
-		      >
+
+		      :key="index">
 		    </el-table-column>
 
 		  </el-table>
@@ -68,7 +68,7 @@
 		      :total="partOfTableData.length">
 		    </el-pagination>
 	  	  </div>
-		
+
 
 
 	</div>
@@ -179,30 +179,30 @@ export default{
                });
 				return
 			}
-			
+
 			this.loading = true
 
-          var params = {           
+          var params = {
        		FourthRegionCode :window.sessionStorage.getItem('RegionCode'),
        		TimeStart:this.dataUtil.formatTime1(this.startDate),
        		TimeEnd:this.dataUtil.formatTime1(this.endDate),
-       		time:this.dataUtil.formatTime1(new Date())      
+       		time:this.dataUtil.formatTime1(new Date())
           }
 
-          console.log(params);
-          
+        //  console.log(params);
+
           var encryptParams = {
             evalue:this.$encrypt(JSON.stringify(params))
           }
 
-          console.log(this.$encrypt(JSON.stringify(params)))
+         // console.log(this.$encrypt(JSON.stringify(params)))
 
           this.http.post(this.api.baseUrl+this.api.QureyEFDayData,encryptParams)
           .then(result=>{
             this.loading = false
-            console.log(result)
+           // console.log(result)
             if (result.status == '成功') {
-            	
+
                 this.$message({
                   type: 'success',
                   message: '查询成功!'
@@ -210,7 +210,7 @@ export default{
                 this.tableData = result.data
                 this.partOfTableData = this.tableData
                 this.showTableData = this.partOfTableData.slice(0, 10)
-                console.log(this.showTableData[0])
+             //   console.log(this.showTableData[0])
 
             }else{
 
@@ -220,20 +220,20 @@ export default{
                });
 
             }
-            
-            
-                    
+
+
+
           })
 		},
 
 		// 筛选数据
 		filterTableData(node){
       		if (window.sessionStorage.getItem('menuName') == 'QueryDayFreezingData') {
-      			
+
       			if(node.level == "4"){
       				this.partOfTableData = this.tableData;
       			}else if(node.level == "5"){
-      				
+
       				this.partOfTableData = this.tableData.filter(element=>{
       					return (element.FifthRegionCode == node.code)
       				})
@@ -247,7 +247,7 @@ export default{
       				this.partOfTableData[i].index = (i+1).toString()
       			}
       			this.showTableData = this.partOfTableData.slice(0, 10)
-      			
+
       		}
       	},
 
@@ -269,16 +269,16 @@ export default{
 		window.sessionStorage.setItem('freezingData','day')
 
 		var date = new Date()
-		
+
 		this.startDate = new Date(date.getTime()-2*24*60*60*1000)
 
 		this.endDate = new Date()
-		
+
 		this.loading = true
 		setTimeout(()=>{
 			this.checkFreezingData()
 		}, 2000)
-		
+
 
 	}
 }

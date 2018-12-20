@@ -4,23 +4,23 @@
          <object id="MWRFATL" style="width:0px;height:0px" classid="CLSID:856964B5-F42F-447B-A37D-ED07E8973ED2" codebase="trjCab.CAB#version=1,0,0,1">
          </object>
         <div>
-            <el-button type="primary" @click='initAndJudge'>读卡</el-button> 
-         
-            <el-button type="warning" @click='button1Click' :disabled='disabled1'>开户</el-button> 
-            <el-button type="warning" @click='button2Click' :disabled='disabled2'>售电</el-button> 
-            <el-button type="warning" @click='GetFrameCancelAccountByPANForRF' :disabled='disabled3'>销户</el-button> 
+            <el-button type="primary" @click='initAndJudge'>读卡</el-button>
+
+            <el-button type="warning" @click='button1Click' :disabled='disabled1'>开户</el-button>
+            <el-button type="warning" @click='button2Click' :disabled='disabled2'>售电</el-button>
+            <el-button type="warning" @click='GetFrameCancelAccountByPANForRF' :disabled='disabled3'>销户</el-button>
             <el-button type="warning" @click='SettlementAndCancelAccountByPANForRF' :disabled='disabled4'>销户退费</el-button>
             <el-button type="warning" @click="ReWriteRFCodeByPAN" :disabled='disabled6'>重写卡</el-button>
-            <el-button type="primary" @click="button7Click">补卡</el-button> 
+            <el-button type="primary" @click="button7Click">补卡</el-button>
 
         </div>
 
         <!-- 操作记录 -->
         <div v-if="show0">
             <div style="width:500px;margin:100px 0 0 120px">
-                
+
               <el-form label-width="100px" class="demo-ruleForm" >
-                    
+
 
                   <el-form-item label='房间：'>
                     {{CustomerInfo}}
@@ -29,7 +29,7 @@
                   <el-form-item label='操作：'>
                     {{LastRecord.Name}}
                   </el-form-item>
-               
+
                   <el-form-item label="金额：" >
                     {{LastRecord.Money}}
                   </el-form-item>
@@ -38,21 +38,21 @@
                     {{LastRecord.Time}}
                   </el-form-item>
               </el-form>
-            
-              
+
+
             </div>
         </div>
 
        <!-- 开户 -->
         <div v-if="show1">
             <div style="width:500px;margin:100px 0 0 120px">
-                
+
               <el-form label-width="100px" class="demo-ruleForm" >
-               
+
                   <el-form-item label="栋">
                     <el-input v-model.trim="FifthRegionName"  disabled></el-input>
                   </el-form-item>
-               
+
                   <el-form-item label="房间" >
                     <el-input  v-model.trim="HouseName" disabled></el-input>
                   </el-form-item>
@@ -60,7 +60,7 @@
                   <el-form-item label="类型" >
                     <el-select v-model="type" placeholder="请选择交易类型" clearable style="width:400px;">
                         <el-option v-for="item in TransactionMethod"
-                        :label="item.label" :value="item.value" >
+                        :label="item.label" :value="item.value"  :key="item.index">
                         </el-option>
                     </el-select>
                   </el-form-item>
@@ -73,10 +73,10 @@
               <div style="text-align:center">
                   <el-button type="primary" style="width:200px;" @click="GetFrameOpenAccountByPANForRF">确定开户</el-button>
               </div>
-              
+
             </div>
         </div>
-        
+
         <!-- 充值 -->
         <div v-if="show2">
             <div style="width:500px;margin:100px 0 0 120px">
@@ -86,7 +86,7 @@
                   <el-form-item label="类型" prop="type">
                     <el-select v-model="topUpForm.type" placeholder="请选择交易类型" clearable style="width:400px;">
                         <el-option v-for="item in TransactionMethod"
-                        :label="item.label" :value="item.value" >
+                        :label="item.label" :value="item.value" :key="item.index">
                         </el-option>
                     </el-select>
                   </el-form-item>
@@ -99,19 +99,19 @@
               <div style="text-align:center">
                   <el-button type="primary" style="width:200px;" @click="GetFrameRechargeByPANForRF">充值</el-button>
               </div>
-              
+
             </div>
         </div>
         <!-- 补卡 -->
         <div v-if="show7">
             <div style="width:500px;margin:100px 0 0 120px">
-                
+
               <el-form  label-width="100px" class="demo-ruleForm" >
-               
+
                   <el-form-item label="栋">
                     <el-input v-model.trim="FifthRegionName"  disabled></el-input>
                   </el-form-item>
-               
+
                   <el-form-item label="房间" >
                     <el-input  v-model.trim="HouseName" disabled></el-input>
                   </el-form-item>
@@ -120,27 +120,27 @@
               <div style="text-align:center">
                   <el-button type="primary" style="width:200px;" @click="NewRFCardByHouseRegionCode">确定</el-button>
               </div>
-              
+
             </div>
         </div>
     </div>
-    
+
 
 </template>
 <script>
 export default{
     data(){
-        return{ 
+        return{
             loading:false,
 
             disabled1:true,//开户按钮
-    
+
             disabled2:true,//售电按钮
-        
+
             disabled3:true,//销户按钮
-          
+
             disabled4:true,//销户退费按钮
-         
+
             disabled6:true,//重写卡按钮
 
             show1:false,//显示开户界面
@@ -150,7 +150,7 @@ export default{
             show7:false,//补卡界面
 
             show0:false,//操作记录界面
-     
+
             CardID:'',//IC卡卡号
 
             blockData:[],//存储IC卡块的数据
@@ -187,13 +187,13 @@ export default{
                 value:'9'
             },],//交易方式
 
-          
+
             FifthRegionName:'',
             HouseName:'',
             HouseCode:'',
             type:'',
             Amount:0,//金额
-     
+
 
             topUpForm:{
                 type:'',
@@ -205,7 +205,7 @@ export default{
                 Money:'',//金额
                 Time:'',//时间
             },//最后一次操作
-          
+
             oldReadCardTime:'',//上一次读卡时间
             readCardTimes:0,//读卡次数， 0 1 2
 
@@ -228,9 +228,9 @@ export default{
             if (!this.ICCard.readerOpen()) {
                 this.$message({
                     type: 'error',
-                    message: "连接读卡器失败"                
+                    message: "连接读卡器失败"
                 });
-               
+
                 this.ICCard.readerClose()
                 return false
             }else{
@@ -261,9 +261,9 @@ export default{
             if (this.ICCard.cardDirVerifyPassword(0,block,"201803191500")) {
                 this.ICCard.cardWriteHex(block,"0000000000000000"+"0000000000000000")
                 return true
-   
+
             }else{
-                console.log('验证密码错误')
+               // console.log('验证密码错误')
                 return false
             }
 
@@ -285,14 +285,14 @@ export default{
             this.disabled3 = true
             this.disabled4 = true
             this.disabled6 = true
-      
+
         },
 
         resetShow(){
             this.show1 = false
             this.show2 = false
             this.show7 = false
-            this.show0 = false    
+            this.show0 = false
         },
 
         /**
@@ -306,7 +306,7 @@ export default{
             this.resetShow()
             this.show2 = true
         },
-        
+
         button7Click(){
             this.resetShow()
             this.show7 = true
@@ -321,25 +321,25 @@ export default{
             // 寻卡
            if(!this.findCard()){
                 return false
-           }               
-            //初始化 
+           }
+            //初始化
             for (var i = 0; i <= 4; i++) {
                 var block = 3 + 4*i
-                console.log(block)
+               // console.log(block)
                 if (this.ICCard.cardDirVerifyPassword(0,block,"ffffffffffff")) {
                     console.log('正在初始密码')
                     this.ICCard.cardWriteHex(block,"201803191500ff078069ffffffffffff")
 
                 }else {
                     // 不需要初始化
-                    console.log('IC卡已经初始过密码')
+                  //  console.log('IC卡已经初始过密码')
                     this.ICCard.readerClose()
                     return false
                 }
             }
 
             return true
-            
+
 
         },
 
@@ -362,15 +362,15 @@ export default{
         async readCard(deliver,isFirstOperation=false){
 
             // 防止连续两次操作，导致读卡机连接失败
-            this.readCardTimes ++ 
+            this.readCardTimes ++
             if(this.readCardTimes == 1){
 
               this.oldReadCardTime = new Date()
 
             }else if (this.readCardTimes == 2) {
-   
+
                 var newtime = new Date()
-                console.log(newtime - this.oldReadCardTime)
+              //  console.log(newtime - this.oldReadCardTime)
                 if (newtime - this.oldReadCardTime < 1500) {
                   // 进行修改
                   this.readCardTimes = 0
@@ -383,8 +383,8 @@ export default{
 
               }
 
-              
-            
+
+
 
            this.resetShow()
            this.resetDisabled()
@@ -396,22 +396,22 @@ export default{
 
 
             try {
-            //已经初始过密码，读卡机会点开，需要重连 
+            //已经初始过密码，读卡机会点开，需要重连
             if (!this.initCard()) {
-              
+
                 if (!this.linkMachine()) {
-                    deliver(false) 
+                    deliver(false)
                     return
                 }
-             
+
                 if(!this.findCard()){
-                    deliver(false) 
+                    deliver(false)
                     return
                 }
 
             }
 
-            
+
 
             // 非读卡操作，需要额外判断前后两次验卡是否是同一张卡
             if (!isFirstOperation) {
@@ -421,17 +421,17 @@ export default{
 
                     if (block != this.blockData[0]) {
                         deliver(3)
-                        return 
+                        return
                     }
 
                 }else{
-                    console.log('验证密码错误')
+                   // console.log('验证密码错误')
                     this.ICCard.readerClose()
                     deliver(false)
-                    
+
                 }
 
-                console.log('hell0')
+               // console.log('hell0')
             }
 
             var blockArr = [1,4,5,8,9,12,13,16,17]
@@ -447,11 +447,11 @@ export default{
                     this.blockData.push(block)
                     console.log("block"+blockArr[i]+":" +block)
                 }else{
-                    console.log('验证密码错误')
+                  //  console.log('验证密码错误')
                     this.ICCard.readerClose()
                     deliver(false)
-                    
-                } 
+
+                }
             }
 
             // 判断PAN
@@ -473,8 +473,8 @@ export default{
                     this.LastRecord = result.LastRecord[0]
                 }
 
-                console.log(JSON.stringify(result) )
-                console.log('完成验证卡');
+              //  console.log(JSON.stringify(result) )
+               // console.log('完成验证卡');
                 if (result.status == '成功') {
 
                     this.CustomerInfo = result.CustomerInfo
@@ -491,15 +491,15 @@ export default{
                         this.clearDataBlock(16)
                         this.clearDataBlock(17)
 
-                        this.disabled2 = false 
+                        this.disabled2 = false
                         this.disabled3 = false
                         deliver(2)
-                        
+
                     }else if (result.CardType == '销户退费卡') {
                         // this.$alert('可进行销户退费','销户退费卡')
                         this.disabled4 = false
                         deliver(4)
-                        
+
                     }else if (result.CardType == '未交易卡' || result.CardType == '异常卡') {
 
                         // 判断是否可以异常结算
@@ -521,13 +521,13 @@ export default{
                             // 进行异常结算
                             await this.SettlementAndClearCard()
                             deliver(5)
-                          
+
                         }else{
                             this.ICCard.readerClose()
                             deliver(false)
-                            
+
                         }
-                         
+
                     }else if (result.CardType == '重写卡') {
                         // this.$alert('可进行重写','重写卡')
                         this.disabled6 = false
@@ -551,7 +551,7 @@ export default{
                         this.$alert('不可进行任何操作','未识别卡')
                         deliver(7)
                     }
-                        
+
                 }else{
                     this.CustomerInfo = ''
 
@@ -561,10 +561,10 @@ export default{
                     });
                     this.ICCard.readerClose()
                     deliver(false)
-                    
+
                 }
-               
-               
+
+
 
             }else{
 
@@ -572,16 +572,16 @@ export default{
                  if (this.hasData(1)||this.hasData(2)||this.hasData(3)||this.hasData(4)||this.hasData(5)||this.hasData(6)||this.hasData(7)||this.hasData(8)) {
                     // 存在数据，异常卡
                     this.$alert('不能操作','这是一张坏卡')
-                   
-                    deliver(8) 
-                    
+
+                    deliver(8)
+
 
                 }else{
                     // 不存在数据,没开户，新卡
                     // this.$alert('可进行开户或者补卡操作','新卡')
                     this.disabled1 = false
-                    deliver(1) 
-                    
+                    deliver(1)
+
                 }
 
             }
@@ -589,7 +589,7 @@ export default{
                 // statements
                 this.ICCard.readerClose()
             }
-           
+
 
         },
 
@@ -607,7 +607,7 @@ export default{
 
                 this.ICCard.readerClose()
             }
-            
+
         },
 
 
@@ -637,11 +637,11 @@ export default{
             }
 
             // 判断该卡是否有开户功能
-            
+
             var num = await new Promise(resolve=>{
                 this.readCard(resolve)
             })
-            console.log(num)
+          //  console.log(num)
 
             if ( num != 1  || num == 3) {
                 this.$alert('此卡没有该功能，请确保中途没有换卡','提示')
@@ -656,30 +656,30 @@ export default{
             var params = {
                 CardID:this.CardID,
                 HouseRegionCode:this.HouseCode,
-                Amount:this.Amount,     
+                Amount:this.Amount,
                 UserId:window.sessionStorage.getItem('id'),
                 RegionCode:window.sessionStorage.getItem('RegionCode'),
-               
+
                 TransactionType:'0',//充值
                 TransactionMode:'0',//视频卡
                 TransactionMethod:this.type,
-                time:this.dataUtil.formatTime1(new Date()) 
+                time:this.dataUtil.formatTime1(new Date())
             }
 
-              console.log(JSON.stringify(params));
-          
+             // console.log(JSON.stringify(params));
+
               var encryptParams = {
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-              console.log(this.$encrypt(JSON.stringify(params)))
+             // console.log(this.$encrypt(JSON.stringify(params)))
 
               this.http.post(this.api.baseUrl+this.api.GetFrameOpenAccountByPANForRF,encryptParams)
               .then(result=>{
                 this.loading = false
-                console.log(JSON.stringify(result))
+              //  console.log(JSON.stringify(result))
                 if (result.status == '成功') {
-                    
+
                     // 秘钥报文
                     var EK = this.rightPadding(result.EK)
                     // 开户
@@ -687,11 +687,11 @@ export default{
                     // PAN值
                     var PAN = this.rightPadding(result.PAN)
 
-                   
+
 
                    var fontEK = EK.substring(0,32)
                    var afterEK = EK.substring(32,64)
-                  
+
 
                    var fontOAF = OAF.substring(0,32)
                    var afterOAF = OAF.substring(32,64)
@@ -705,24 +705,24 @@ export default{
                         if (this.ICCard.cardDirVerifyPassword(0,writeBlock[i],"201803191500")) {
                             // 写卡
                             if( !this.ICCard.cardWriteHex(writeBlock[i],writeBlockData[i]) ){
-                                
+
                                 this.$alert('写卡失败，请重新操作','失败')
 
                                 this.ICCard.readerClose()
                                 this.resetDisabled()
                                 this.resetShow()
-                                return 
+                                return
                             }
 
-                                                      
+
 
                         }else{
                             console.log('验证密码错误')
                             this.ICCard.readerClose()
                             this.resetDisabled()
                             this.resetShow()
-                            return 
-                        } 
+                            return
+                        }
 
                     }
 
@@ -734,7 +734,7 @@ export default{
 
 
 
-                    
+
 
                 }else{
 
@@ -742,14 +742,14 @@ export default{
                       type: 'error',
                       message: result.data
                    });
-                  
+
 
                 }
                 // 无论成功失败都关闭读卡器
                 this.ICCard.readerClose()
                 this.resetDisabled()
                 this.resetShow()
-                        
+
               })
         },
 
@@ -767,27 +767,27 @@ export default{
                 UserId:window.sessionStorage.getItem('id'),
                 RegionCode:window.sessionStorage.getItem('RegionCode'),
                 PAN:PAN,
-                FrameRF:FrameRF,   
-                time:this.dataUtil.formatTime1(new Date()) 
+                FrameRF:FrameRF,
+                time:this.dataUtil.formatTime1(new Date())
             }
 
-              console.log(JSON.stringify(params));
-          
+             // console.log(JSON.stringify(params));
+
               var encryptParams = {
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-              console.log(this.$encrypt(JSON.stringify(params)))
+             // console.log(this.$encrypt(JSON.stringify(params)))
 
-           
+
             this.http.post(this.api.baseUrl+this.api.QueryRFCodeStatus,encryptParams)
             .then(result=>{
                 console.log('读卡完成')
                 this.loading = false
-                resolve(result)                       
+                resolve(result)
             })
-     
-             
+
+
         },
 
         /**
@@ -817,8 +817,8 @@ export default{
             }
 
             // 判断该卡是否有充值功能
-          
-            
+
+
             var num = await new Promise(resolve=>{
                 this.readCard(resolve)
             })
@@ -846,28 +846,28 @@ export default{
                     CardID:this.CardID,
                     PAN:this.blockData[0],
                     Amount:this.topUpForm.Amount ,
-                    UserId:window.sessionStorage.getItem('id'),                                       
-                    RegionCode:window.sessionStorage.getItem('RegionCode'),                   
+                    UserId:window.sessionStorage.getItem('id'),
+                    RegionCode:window.sessionStorage.getItem('RegionCode'),
                     TransactionType:'0',//充值
                     TransactionMode:'0',//视频卡
                     TransactionMethod:this.topUpForm.type,
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-                  console.log(JSON.stringify(params));
-              
+               //   console.log(JSON.stringify(params));
+
                   var encryptParams = {
                     evalue:this.$encrypt(JSON.stringify(params))
                   }
 
-                  console.log(this.$encrypt(JSON.stringify(params)))
+               //   console.log(this.$encrypt(JSON.stringify(params)))
 
                   this.http.post(this.api.baseUrl+this.api.GetFrameRechargeByPANForRF,encryptParams)
                   .then(result=>{
                     this.loading = false
-                    console.log(JSON.stringify(result))
+                //    console.log(JSON.stringify(result))
                     if (result.status == '成功') {
-                        
+
                         // 秘钥报文
                         var EK = this.rightPadding(result.EK)
                         // 开户
@@ -875,7 +875,7 @@ export default{
 
                        var fontEK = EK.substring(0,32)
                        var afterEK = EK.substring(32,64)
-               
+
                        var fontRC = RC.substring(0,32)
                        var afterRC = RC.substring(32,64)
 
@@ -883,34 +883,34 @@ export default{
                         // 把数据写进ICCard
                         var writeBlock = [4,5,12,13]
                         var writeBlockData = [fontEK,afterEK,fontRC,afterRC]
-                        console.log('开始充值')
+                    //    console.log('开始充值')
                         for (var i = 0; i < writeBlock.length; i++) {
 
                             if (this.ICCard.cardDirVerifyPassword(0,writeBlock[i],"201803191500")) {
-                                
+
                                 if( !this.ICCard.cardWriteHex(writeBlock[i],writeBlockData[i]) ){
-                                
+
                                     this.$alert('写卡失败，请重新读卡进行操作','失败')
 
                                     this.ICCard.readerClose()
                                     this.resetDisabled()
                                     this.resetShow()
-                                    return 
+                                    return
                                 }
 
 
                             }else{
-                                console.log('验证密码错误')
+                              //  console.log('验证密码错误')
                                 this.$alert('验证密码错误，请重新读卡，进行重写卡','失败')
                                 this.ICCard.readerClose()
                                 this.resetDisabled()
-                                this.resetShow() 
+                                this.resetShow()
                                 return
-                            } 
+                            }
                         }
 
                         this.$alert('充值成功','成功')
-    
+
 
                     }else{
 
@@ -918,13 +918,13 @@ export default{
                           type: 'error',
                           message: result.data
                        });
-                      
+
                     }
 
                     // 无论成功失败都关闭读卡器
                     this.ICCard.readerClose()
                     this.resetDisabled()
-                    this.resetShow()                           
+                    this.resetShow()
                   })
 
 
@@ -934,10 +934,10 @@ export default{
                     this.resetShow()
                     this.$alert('异常操作，请重新读卡','警告')
                 }
-             
+
 
             }).catch(()=>{
-                console.log('点击取消按钮')
+               // console.log('点击取消按钮')
                 this.ICCard.readerClose()
             });
         },
@@ -956,40 +956,40 @@ export default{
                 var params = {
                     CardID:this.CardID,
                     PAN:this.blockData[0],
-                    UserId:window.sessionStorage.getItem('id'),                                       
-                    RegionCode:window.sessionStorage.getItem('RegionCode'),                   
+                    UserId:window.sessionStorage.getItem('id'),
+                    RegionCode:window.sessionStorage.getItem('RegionCode'),
                     FrameRF:FrameRF,
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-                  console.log(JSON.stringify(params));
-              
+                 // console.log(JSON.stringify(params));
+
                   var encryptParams = {
                     evalue:this.$encrypt(JSON.stringify(params))
                   }
 
-                  console.log(this.$encrypt(JSON.stringify(params)))
+                //  console.log(this.$encrypt(JSON.stringify(params)))
 
 
                  await this.http.post(this.api.baseUrl+this.api.SettlementAndClearCard,encryptParams)
                   .then(result=>{
                     this.loading = false
-                    console.log(JSON.stringify(result))
+                   // console.log(JSON.stringify(result))
                     if (result.status == '成功') {
-                            
+
                        if (this.clearDataBlock(4) && this.clearDataBlock(5) && this.clearDataBlock(8) && this.clearDataBlock(9) && this.clearDataBlock(12) && this.clearDataBlock(13) && this.clearDataBlock(16) && this.clearDataBlock(17)) {
                             var title = '异常结算成功'
-                            var message = '退回金额' +result.Money +'元' 
+                            var message = '退回金额' +result.Money +'元'
                             this.$alert(message,title)
                        }else{
                             this.$alert('此卡变成是是失效卡','警告')
-                       }               
-                       
+                       }
+
                        // 销户退费时清空PAN
                         if (result.ClearPAN.toUpperCase() == "TRUE") {
                             this.clearDataBlock(1)
-                        } 
-                          
+                        }
+
 
                     }else{
 
@@ -997,24 +997,24 @@ export default{
                           type: 'error',
                           message: result.data
                        });
-                      
+
                     }
-                          
-                  })                  
+
+                  })
 
                 }else {
                     // 不需要初始化
-                    this.$alert('异常操作，请重新读卡','警告')  
+                    this.$alert('异常操作，请重新读卡','警告')
             }
 
-             
+
         },
 
         /**
         *销户
         */
         async GetFrameCancelAccountByPANForRF(){
-            // 判断该卡是否有充值功能            
+            // 判断该卡是否有充值功能
             var num = await new Promise(resolve=>{
                 this.readCard(resolve)
             })
@@ -1038,23 +1038,23 @@ export default{
                 var params = {
                     CardID:this.CardID,
                     PAN:this.blockData[0],
-                    UserId:window.sessionStorage.getItem('id'),        
+                    UserId:window.sessionStorage.getItem('id'),
                     RegionCode:window.sessionStorage.getItem('RegionCode'),
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-                  console.log(JSON.stringify(params));
-              
+              //    console.log(JSON.stringify(params));
+
                   var encryptParams = {
                     evalue:this.$encrypt(JSON.stringify(params))
                   }
 
-                  console.log(this.$encrypt(JSON.stringify(params)))
+                //  console.log(this.$encrypt(JSON.stringify(params)))
 
                   this.http.post(this.api.baseUrl+this.api.GetFrameCancelAccountByPANForRF,encryptParams)
                   .then(result=>{
                     this.loading = false
-                    console.log(JSON.stringify(result))
+                  //  console.log(JSON.stringify(result))
                     if (result.status == '成功') {
                         // 要写入卡的数据
                         var CA = this.rightPadding(result.CA)
@@ -1062,37 +1062,37 @@ export default{
 
                        var fontCA = CA.substring(0,32)
                        var afterCA = CA.substring(32,64)
-               
+
 
 
 
                         // 把数据写进ICCard
                         var writeBlock = [12,13]
                         var writeBlockData = [fontCA,afterCA]
-                        console.log('开始充值')
+                      //  console.log('开始充值')
                         for (var i = 0; i < writeBlock.length; i++) {
 
                             if (this.ICCard.cardDirVerifyPassword(0,writeBlock[i],"201803191500")) {
-                                
+
                                 if( !this.ICCard.cardWriteHex(writeBlock[i],writeBlockData[i]) ){
-                                
+
                                     this.$alert('写卡失败，请重新读卡进行操作','失败')
 
                                     this.ICCard.readerClose()
                                     this.resetDisabled()
                                     this.resetShow()
-                                    return 
+                                    return
                                 }
 
 
                             }else{
-                                console.log('验证密码错误')
+                              //  console.log('验证密码错误')
                                 this.$alert('验证密码错误，请重新读卡，进行重写卡','失败')
                                 this.ICCard.readerClose()
                                 this.resetDisabled()
-                                this.resetShow() 
+                                this.resetShow()
                                 return
-                            }  
+                            }
                         }
 
 
@@ -1100,7 +1100,7 @@ export default{
                        //  this.$message({
                        //    type: 'success',
                        //    message: '销户成功!'
-                       // });    
+                       // });
 
                     }else{
 
@@ -1108,13 +1108,13 @@ export default{
                           type: 'error',
                           message: result.data
                        });
-                      
+
                     }
 
                     // 无论成功失败都关闭读卡器
                     this.ICCard.readerClose()
                     this.resetDisabled()
-                    this.resetShow()                           
+                    this.resetShow()
                   })
             }).catch(()=>{
                 this.ICCard.readerClose()
@@ -1126,7 +1126,7 @@ export default{
         *销户退费
         */
         async SettlementAndCancelAccountByPANForRF(){
-             // 判断该卡是否有该功能            
+             // 判断该卡是否有该功能
             var num = await new Promise(resolve=>{
                 this.readCard(resolve)
             })
@@ -1147,24 +1147,24 @@ export default{
                 var params = {
                     CardID:this.CardID,
                     PAN:this.blockData[0],
-                    UserId:window.sessionStorage.getItem('id'),        
+                    UserId:window.sessionStorage.getItem('id'),
                     RegionCode:window.sessionStorage.getItem('RegionCode'),
                     FrameRF:FrameRF,
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-                  console.log(JSON.stringify(params));
-              
+                 // console.log(JSON.stringify(params));
+
                   var encryptParams = {
                     evalue:this.$encrypt(JSON.stringify(params))
                   }
 
-                  console.log(this.$encrypt(JSON.stringify(params)))
+                 // console.log(this.$encrypt(JSON.stringify(params)))
 
                   this.http.post(this.api.baseUrl+this.api.SettlementAndCancelAccountByPANForRF,encryptParams)
                   .then(result=>{
                     this.loading = false
-                    console.log(JSON.stringify(result))
+                   // console.log(JSON.stringify(result))
                     if (result.status == '成功') {
                         // 清空所有PAN和数据区
 
@@ -1185,8 +1185,8 @@ export default{
                             this.$alert('清空卡数据失败,请重新操作','失败')
                        }
 
-                       
-                            
+
+
 
                     }else{
 
@@ -1194,13 +1194,13 @@ export default{
                           type: 'error',
                           message: result.data
                        });
-                      
+
                     }
 
                     // 无论成功失败都关闭读卡器
                     this.ICCard.readerClose()
                     this.resetDisabled()
-                    this.resetShow()                           
+                    this.resetShow()
                   })
         },
 
@@ -1209,7 +1209,7 @@ export default{
         */
 
         async ReWriteRFCodeByPAN(){
-             // 判断该卡是否有该功能            
+             // 判断该卡是否有该功能
             var num = await new Promise(resolve=>{
                 this.readCard(resolve)
             })
@@ -1225,39 +1225,39 @@ export default{
              // 网络请求
               this.loading = true
 
-            
+
 
                 var params = {
                     CardID:this.CardID,
                     PAN:this.blockData[0],
-                    UserId:window.sessionStorage.getItem('id'),        
+                    UserId:window.sessionStorage.getItem('id'),
                     RegionCode:window.sessionStorage.getItem('RegionCode'),
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-                  console.log(JSON.stringify(params));
-              
+                 // console.log(JSON.stringify(params));
+
                   var encryptParams = {
                     evalue:this.$encrypt(JSON.stringify(params))
                   }
 
-                  console.log(this.$encrypt(JSON.stringify(params)))
+                //  console.log(this.$encrypt(JSON.stringify(params)))
 
                   this.http.post(this.api.baseUrl+this.api.ReWriteRFCodeByPAN,encryptParams)
                   .then(result=>{
                     this.loading = false
-                    console.log(JSON.stringify(result))
+                 //   console.log(JSON.stringify(result))
                     if (result.status == '成功') {
                         // 清空所有PAN和数据区
                                           // 秘钥报文
                         var EK = this.rightPadding(result.EK)
                         // 开户
                         var OAF = this.rightPadding(result.OAF)
-                       
+
 
                        var fontEK = EK.substring(0,32)
                        var afterEK = EK.substring(32,64)
-                      
+
 
                        var fontOAF = OAF.substring(0,32)
                        var afterOAF = OAF.substring(32,64)
@@ -1278,30 +1278,30 @@ export default{
                         for (var i = 0; i < writeBlock.length; i++) {
 
                             if (this.ICCard.cardDirVerifyPassword(0,writeBlock[i],"201803191500")) {
-                                
+
                                 if( !this.ICCard.cardWriteHex(writeBlock[i],writeBlockData[i]) ){
-                                
+
                                     this.$alert('写卡失败，请重新读卡进行操作','失败')
 
                                     this.ICCard.readerClose()
                                     this.resetDisabled()
                                     this.resetShow()
-                                    return 
+                                    return
                                 }
 
 
                             }else{
-                                console.log('验证密码错误')
+                               // console.log('验证密码错误')
                                 this.$alert('验证密码错误，请重新读卡，进行重写卡','失败')
                                 this.ICCard.readerClose()
                                 this.resetDisabled()
-                                this.resetShow() 
+                                this.resetShow()
                                 return
-                            } 
+                            }
                         }
 
                         this.$alert(result.cardInfo,'成功')
-                            
+
 
                     }else{
 
@@ -1309,13 +1309,13 @@ export default{
                           type: 'error',
                           message: result.data
                        });
-                      
+
                     }
 
                     // 无论成功失败都关闭读卡器
                     this.ICCard.readerClose()
                     this.resetDisabled()
-                    this.resetShow()                           
+                    this.resetShow()
                   })
         },
 
@@ -1324,12 +1324,12 @@ export default{
         *补卡
         */
         async NewRFCardByHouseRegionCode(){
-            // 判断该卡是否有该功能            
+            // 判断该卡是否有该功能
             var num = await new Promise(resolve=>{
                 this.readCard(resolve,true)
             })
 
-            console.log('功能'+num)
+           // console.log('功能'+num)
             if ( num != 1 ) {
                this.$alert('此卡没有该功能，请确保中途没有换卡','提示')
                 this.resetShow()
@@ -1343,30 +1343,30 @@ export default{
                 //  var result = await new Promise(resolve=>{
                 //     this.NewRFCardChkByHouseRegionCode()
                 // })
-              
+
 
                 var params = {
                     CardID:this.CardID,
-                    HouseRegionCode:this.HouseCode,    
+                    HouseRegionCode:this.HouseCode,
                     UserId:window.sessionStorage.getItem('id'),
                     RegionCode:window.sessionStorage.getItem('RegionCode'),
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-              console.log(JSON.stringify(params));
-          
+           //   console.log(JSON.stringify(params));
+
               var encryptParams = {
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-              console.log(this.$encrypt(JSON.stringify(params)))
+            //  console.log(this.$encrypt(JSON.stringify(params)))
 
               this.http.post(this.api.baseUrl+this.api.NewRFCardByHouseRegionCode,encryptParams)
               .then(result=>{
                 this.loading = false
-                console.log(JSON.stringify(result))
+              //  console.log(JSON.stringify(result))
                 if (result.status == '成功') {
-                    
+
                     // 秘钥报文
                     var EK = this.rightPadding(result.EK)
                     // 开户
@@ -1374,11 +1374,11 @@ export default{
                     // PAN值
                     var PAN = this.rightPadding(result.PAN)
 
-                   
+
 
                    var fontEK = EK.substring(0,32)
                    var afterEK = EK.substring(32,64)
-                  
+
 
                    var fontOAF = OAF.substring(0,32)
                    var afterOAF = OAF.substring(32,64)
@@ -1390,26 +1390,26 @@ export default{
                     for (var i = 0; i < writeBlock.length; i++) {
 
                         if (this.ICCard.cardDirVerifyPassword(0,writeBlock[i],"201803191500")) {
-                                
+
                                 if( !this.ICCard.cardWriteHex(writeBlock[i],writeBlockData[i]) ){
-                                
+
                                     this.$alert('写卡失败，请重新读卡进行操作','失败')
 
                                     this.ICCard.readerClose()
                                     this.resetDisabled()
                                     this.resetShow()
-                                    return 
+                                    return
                                 }
 
 
                             }else{
-                                console.log('验证密码错误')
+                              //  console.log('验证密码错误')
                                 this.$alert('验证密码错误，请重新读卡，进行重写卡','失败')
                                 this.ICCard.readerClose()
                                 this.resetDisabled()
-                                this.resetShow() 
+                                this.resetShow()
                                 return
-                            } 
+                            }
                     }
 
 
@@ -1420,7 +1420,7 @@ export default{
 
 
 
-                    
+
 
                 }else{
 
@@ -1428,18 +1428,18 @@ export default{
                       type: 'error',
                       message: result.data
                    });
-                  
+
 
                 }
                 // 无论成功失败都关闭读卡器
                 this.ICCard.readerClose()
                 this.resetDisabled()
                 this.resetShow()
-                        
+
               })
             }
 
-           
+
         },
 
         /**
@@ -1450,12 +1450,12 @@ export default{
         //     var params = {
         //         UserId:window.sessionStorage.getItem('id'),
         //         RegionCode:window.sessionStorage.getItem('RegionCode'),
-        //         HouseRegionCode:this.HouseCode, 
-        //         time:this.dataUtil.formatTime1(new Date()) 
+        //         HouseRegionCode:this.HouseCode,
+        //         time:this.dataUtil.formatTime1(new Date())
         //     }
 
         //     console.log(JSON.stringify(params));
-          
+
         //     var encryptParams = {
         //         evalue:this.$encrypt(JSON.stringify(params))
         //     }
@@ -1493,7 +1493,7 @@ export default{
                             console.log('匹配到')
                             return fifthNames[j].label
                         }
-                        
+
                     }
                 }
             }
@@ -1507,7 +1507,7 @@ export default{
                 if (node.level == "6") {
                     this.HouseName = node.label
                     this.HouseCode = node.code
-                }  
+                }
 
             }
         },
@@ -1530,5 +1530,5 @@ export default{
 }
 </script>
 <style>
-	
+
 </style>

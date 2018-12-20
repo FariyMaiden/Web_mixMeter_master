@@ -226,11 +226,11 @@ export default{
 .wrap{
 	margin-top: 40px;
 	margin-left: 20px;
-}	
-
-.el-form-item {
-	/*text-align: center;*/
 }
+
+/* .el-form-item {
+	text-align: center;
+} */
 
 
 

@@ -100,7 +100,7 @@
 		    <el-table-column type="expand">
 		      <template slot-scope="props">
 		        <el-form label-position="left" inline class="demo-table-expand" >
-		          <el-form-item  v-for="(item,index) in tableHead" v-if="index >=5" :label="item.label" >
+		          <el-form-item  v-for="(item,index) in tableHead" v-if="index >=5" :label="item.label" :key="index">
 		            <span>{{ props.row[item.id] }}</span>
 		          </el-form-item>
 
@@ -113,7 +113,7 @@
 		    	:prop="item.id"
 		    	:label="item.label"
 		    	:width='item.width'
-		    	>
+		    	:key="index">
 		    </el-table-column>
 
 		     <!-- <el-table-column label="状态">
@@ -285,7 +285,7 @@ export default{
 		*分页控制器的方法
 		*/
       	handleCurrentChange(val) {
-        	console.log(`当前页: ${val}`);
+        //	console.log(`当前页: ${val}`);
         	this.showTableData = this.partOfTableData.slice((val-1)*10, val *10)
       	},
 
@@ -325,7 +325,7 @@ export default{
 			}
 
 			this.http.get(this.api.remote_area_url,params).then(res=>{
-				console.log('省')
+			//	console.log('省')
 				this.FirstRegion = res.data.result
 			})
       	},
@@ -372,13 +372,13 @@ export default{
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-            console.log(this.$encrypt(JSON.stringify(params)))
+           // console.log(this.$encrypt(JSON.stringify(params)))
 	        this.http.post(this.api.baseUrl+this.api.AddNewCommmunity,encryptParams)
 		    .then(result=>{
-		        console.log('添加管理员')
+		       // console.log('添加管理员')
 		         this.loading = false
 
-	           console.log(result)
+	         //  console.log(result)
 	           if (result.status=="成功") {
 
 	          	this.$message({
@@ -425,7 +425,7 @@ export default{
       	},
 
       	sureChangeAdminInfo(){
-      		console.log('开始修改')
+      	//	console.log('开始修改')
       		this.changeDialogVisible = false
         	this.loading = true
         	var that= this
@@ -446,14 +446,14 @@ export default{
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-            console.log(this.$encrypt(JSON.stringify(params)))
+           // console.log(this.$encrypt(JSON.stringify(params)))
 
 
 	        this.http.post(this.api.baseUrl+this.api.UpdateCommmunity,encryptParams)
 	        .then(result=>{
 	          this.loading = false
 
-	           console.log(result)
+	         //  console.log(result)
 	          if (result.status=="成功") {
 
             	this.$message({
@@ -474,7 +474,7 @@ export default{
       	*获取所有社区管理员信息
       	*/
       	getAllAdminInfo(){
-      		console.log('请求管理员信息')
+      	//	console.log('请求管理员信息')
       		this.loading = true
 	      	var params = {
 	          time:this.dataUtil.formatTime1(new Date())
@@ -484,14 +484,14 @@ export default{
 	          evalue:this.$encrypt(JSON.stringify(params))
 	        }
 
-	        console.log(this.$encrypt(JSON.stringify(params)))
+	       // console.log(this.$encrypt(JSON.stringify(params)))
 
 
 	        this.http.post(this.api.baseUrl+this.api.QureyAllAdminInfo,encryptParams)
 	        .then(result=>{
 	          this.loading = false
 
-	           console.log(result)
+	         //  console.log(result)
 	          if (result.status=="成功") {
 	            this.tableData = result.data
 	            this.partOfTableData = this.tableData
@@ -581,7 +581,7 @@ export default{
 		// town:function(newvalue){},
 	},
 	mounted(){
-		console.log('请求省')
+	//console.log('请求省')
 		if (this.FirstRegion.length==0) {
 			setTimeout(()=>{
 				// this.FirstRegionRequest()

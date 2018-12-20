@@ -1,12 +1,12 @@
 <!-- 用户组信息维护 -->
 <template>
 	<div>
-		
+
 		<div class="condition">
 			<div class='add'>
 				<el-button type="primary"   @click="dialogVisible = true">添加组</el-button>
 			</div>
-			
+
 		</div>
 		<!-- 对话框 -->
 		<el-dialog title="组信息添加/修改" :visible.sync="dialogVisible">
@@ -28,27 +28,27 @@
 		    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
 		  </div>
 		</el-dialog>
-		
+
 
 		<el-table
 		    :data="tableData"
 		    :header-cell-class-name="tableheaderClassName"
 		    stripe
-		    border	
+		    border
 		    style="width: 100%;"
 		    @row-click="changeAuthority">
-		    <el-table-column 
+		    <el-table-column
 		    	prop="id"
 		    	label="用户组编号"
-		    	>		
+		    	>
 		    </el-table-column>
-			<el-table-column 
+			<el-table-column
 		    	prop="name"
 		    	label="组名"
-		    	>		
+		    	>
 		    </el-table-column>
-		     <el-table-column 
-		    	label="操作">	
+		     <el-table-column
+		    	label="操作">
 				<template slot-scope="scope">
 	       			<el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
      			</template>
@@ -126,7 +126,7 @@ export default{
 		*修改权限
 		*/
 		changeAuthority(row){
-			console.log(row)
+		//	console.log(row)
 			this.groupName = row.name
 			this.dialogVisible = true
 		}
@@ -148,7 +148,7 @@ export default{
 }
 .authoritySetting{
 	margin-top: 20px;
-}	
+}
 </style>
 
 

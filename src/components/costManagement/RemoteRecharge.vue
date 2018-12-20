@@ -4,26 +4,26 @@
       <object id="MWRFATL" style="width:0px;height:0px" classid="CLSID:856964B5-F42F-447B-A37D-ED07E8973ED2" codebase="trjCab.CAB#version=1,0,0,1">
      </object>
 		<div>
-            <el-button type="primary" @click="btn0Click">查询状态</el-button> 
-            <el-button type="warning" :disabled = "disabled1" @click="btn1Click" >远程开户</el-button> 
-            <el-button type="warning" :disabled = 'disabled2' @click="btn2Click">远程充值</el-button> 
+            <el-button type="primary" @click="btn0Click">查询状态</el-button>
+            <el-button type="warning" :disabled = "disabled1" @click="btn1Click" >远程开户</el-button>
+            <el-button type="warning" :disabled = 'disabled2' @click="btn2Click">远程充值</el-button>
             <el-button type="warning" :disabled = 'disabled3' @click="ReOprtByHouseCode">重写</el-button>
         </div>
         <!-- 读取状态 -->
 		<div v-if='show0'>
             <div style="width:500px;margin:30px 0 0 60px">
-                
-              
+
+
 
               <el-form label-width="100px" class="demo-ruleForm" >
                   <div class="title">*用户基本信息</div>
 				          <el-form-item label='区域：' style='height:30px'>
-                    
+
                     <el-input v-model='FifthRegionName' disabled placeholder='请选择栋数'></el-input>
                   </el-form-item>
 
                   <el-form-item label='房间：' style='height:30px'>
-                    
+
                     <el-input v-model='HouseRegionName' disabled placeholder='请选择房间'></el-input>
                   </el-form-item>
                   <el-form-item label='表号：' style='height:30px'>
@@ -32,84 +32,84 @@
                   <el-form-item label='用户：' style='height:30px'>
                     {{CustomerInfo.CurrentUser}}
                   </el-form-item>
-                  
+
                    <div class="title">*最近一次操作</div>
-				
+
 					          <el-form-item label='操作：' style='height:30px'>
                     	{{LastRecord.Name}}
                   	</el-form-item>
-               
+
                   	<el-form-item label="金额：" style='height:30px'>
                       <b style="color:blue">
                         {{LastRecord.Money}}
                       </b>
-                    	
+
                   	</el-form-item>
 
                   	<el-form-item label="时间：" style='height:30px'>
                     	{{LastRecord.Time}}
                   	</el-form-item>
-				
+
                     <div class="title">*电表当前数据</div>
-                      
+
                     <div style="display: flex;">
                         <el-form-item label='剩余金额：' style='width:240px;height:30px'>
                           <span :style='style1'>
                             {{CurrentPara.RemainMoney}}
                           </span>
-                         
+
                         </el-form-item>
-               
+
                         <el-form-item label="余额状态：" style='height:30px'>
                           <span :style='style2'>
                             {{CurrentPara.BalanceStatu}}
                           </span>
-                          
+
                         </el-form-item>
                     </div>
-                    
+
                     <div style="display: flex;">
                       <el-form-item label="阀控状态：" style='width:240px;height:30px'>
                         <span :style='style3'>
                           {{CurrentPara.RelayStatu}}
                         </span>
-                        
+
                       </el-form-item>
                       <el-form-item label="抄读时间：" style='height:30px'>
                         {{CurrentPara.RemainMoneyTime}}
                       </el-form-item>
                     </div>
-                    
+
 
               </el-form>
             <div style="text-align:center">
             	<!-- <el-button type="primary" style="width:120px" @click='QueryEMSTSStatus'>确定</el-button>  -->
             </div>
-              
-              
+
+
             </div>
         </div>
 
          <!-- 远程开户 -->
 		<div v-if='show1'>
             <div style="width:500px;margin:100px 0 0 120px">
-                
+
               <el-form label-width="100px" class="demo-ruleForm" >
-                    
+
 				  <el-form-item label='栋数：'>
-                    
+
                     <el-input v-model='FifthRegionName' disabled placeholder='请选择栋数'></el-input>
                   </el-form-item>
 
                   <el-form-item label='房间：'>
-                    
+
                     <el-input v-model='HouseRegionName' disabled placeholder='请选择房间'></el-input>
                   </el-form-item>
 
 				 <el-form-item label="类型：" >
                     <el-select v-model="type" placeholder="请选择交易类型" clearable style="width:400px;">
                         <el-option v-for="item in TransactionMethod"
-                        :label="item.label" :value="item.value" >
+                        :label="item.label" :value="item.value" :key="item.index">
                         </el-option>
                     </el-select>
                   </el-form-item>
@@ -117,36 +117,36 @@
                   <el-form-item label="金额：" >
                     <el-input  v-model.trim="Amount"></el-input>
                   </el-form-item>
-                  
+
               </el-form>
             <div style="text-align:center">
-            	<el-button type="primary" style="width:120px" @click='GetFrameOpenAccountyByHouseCode'>确定开户</el-button> 
+            	<el-button type="primary" style="width:120px" @click='GetFrameOpenAccountyByHouseCode'>确定开户</el-button>
             </div>
-              
-              
+
+
             </div>
         </div>
 
         <!-- 远程充值 -->
         <div v-if='show2'>
             <div style="width:500px;margin:100px 0 0 120px">
-                
+
               <el-form label-width="100px" class="demo-ruleForm" >
-                    
+
 				  <el-form-item label='栋数：'>
-                    
+
                     <el-input v-model='FifthRegionName' disabled placeholder='请选择栋数'></el-input>
                   </el-form-item>
 
                   <el-form-item label='房间：'>
-                    
+
                     <el-input v-model='HouseRegionName' disabled placeholder='请选择房间'></el-input>
                   </el-form-item>
 
 				 <el-form-item label="类型：" >
                     <el-select v-model="type" placeholder="请选择交易类型" clearable style="width:400px;">
                         <el-option v-for="item in TransactionMethod"
-                        :label="item.label" :value="item.value" >
+                        :label="item.label" :value="item.value" :key="item.index">
                         </el-option>
                     </el-select>
                   </el-form-item>
@@ -154,13 +154,13 @@
                   <el-form-item label="金额：" >
                     <el-input  v-model.trim="Amount"></el-input>
                   </el-form-item>
-                  
+
               </el-form>
             <div style="text-align:center">
-            	<el-button type="primary" style="width:120px" @click='GetFrameRechargeByHouseCode'>确定充值</el-button> 
+            	<el-button type="primary" style="width:120px" @click='GetFrameRechargeByHouseCode'>确定充值</el-button>
             </div>
-              
-              
+
+
             </div>
         </div>
 
@@ -265,32 +265,32 @@ export default{
         this.loading = true
 
         var params = {
-            UserId:window.sessionStorage.getItem('id'),        
+            UserId:window.sessionStorage.getItem('id'),
             RegionCode:window.sessionStorage.getItem('RegionCode'),
             HouseRegionCode:this.HouseRegionCode,
-            time:this.dataUtil.formatTime1(new Date()) 
+            time:this.dataUtil.formatTime1(new Date())
         }
 
-          console.log(JSON.stringify(params));
-      
+         // console.log(JSON.stringify(params));
+
           var encryptParams = {
             evalue:this.$encrypt(JSON.stringify(params))
           }
 
-          console.log(this.$encrypt(JSON.stringify(params)))
+        //  console.log(this.$encrypt(JSON.stringify(params)))
 
           this.http.post(this.api.baseUrl+this.api.QueryEMSTSStatus,encryptParams)
           .then(result=>{
           	this.loading = false
-          	console.log(JSON.stringify(result))
+         // 	console.log(JSON.stringify(result))
 
-          	
+
           	if (result.status == '成功') {
 
               if (result.LastRecord != '') {
                 this.LastRecord = result.LastRecord[0]
               }
-          		
+
 
           		this.CustomerInfo = result.CustomerInfo[0]
 
@@ -303,7 +303,7 @@ export default{
           			this.disabled3 = true
 
           		}else if (result.CardType == '开户卡') {
-          			
+
           			this.disabled1 = false
           			this.disabled2 = true
           			this.disabled3 = true
@@ -365,28 +365,28 @@ export default{
               this.loading = true
 
                 var params = {
-                    UserId:window.sessionStorage.getItem('id'),        
+                    UserId:window.sessionStorage.getItem('id'),
                     RegionCode:window.sessionStorage.getItem('RegionCode'),
                     HouseRegionCode:this.HouseRegionCode,
                     Amount:this.Amount,
                     TransactionType:'0',//充值
                     TransactionMode:'2',//远程
                     TransactionMethod:this.type,
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-                  console.log(JSON.stringify(params));
-              
+                //  console.log(JSON.stringify(params));
+
                   var encryptParams = {
                     evalue:this.$encrypt(JSON.stringify(params))
                   }
 
-                  console.log(this.$encrypt(JSON.stringify(params)))
+                //  console.log(this.$encrypt(JSON.stringify(params)))
 
                   this.http.post(this.api.baseUrl+this.api.GetFrameOpenAccountyByHouseCode,encryptParams)
                   .then(result=>{
                   	this.loading = false
-                  	console.log(result)
+                //  	console.log(result)
                   	if (result.status == '成功') {
 
                   		if (result.LastRecord != '') {
@@ -399,7 +399,7 @@ export default{
 	                        message: '开户成功'
                     	});
 
-                    	
+
 
                   	}else{
                   		this.$message({
@@ -407,17 +407,17 @@ export default{
 	                        message: result.data
                     	});
                   	}
-                  
+
                   	this.resetShow()
                   	this.resetDisabled()
 					          this.show0 = true
-                 
+
 
                   })
             }).catch(()=>{
 
             })
-			
+
 		},
 
 		// 充值
@@ -461,28 +461,28 @@ export default{
               this.loading = true
 
                 var params = {
-                    UserId:window.sessionStorage.getItem('id'),        
+                    UserId:window.sessionStorage.getItem('id'),
                     RegionCode:window.sessionStorage.getItem('RegionCode'),
                     HouseRegionCode:this.HouseRegionCode,
                     Amount:this.Amount,
                     TransactionType:'0',//充值
                     TransactionMode:'2',//远程
                     TransactionMethod:this.type,
-                    time:this.dataUtil.formatTime1(new Date()) 
+                    time:this.dataUtil.formatTime1(new Date())
                 }
 
-                  console.log(JSON.stringify(params));
-              
+                 // console.log(JSON.stringify(params));
+
                   var encryptParams = {
                     evalue:this.$encrypt(JSON.stringify(params))
                   }
 
-                  console.log(this.$encrypt(JSON.stringify(params)))
+                //  console.log(this.$encrypt(JSON.stringify(params)))
 
                   this.http.post(this.api.baseUrl+this.api.GetFrameRechargeByHouseCode,encryptParams)
                   .then(result=>{
                   	this.loading = false
-                  	console.log(result)
+                  //	console.log(result)
                   	if (result.status == '成功') {
 
                   		if (result.LastRecord != '') {
@@ -495,7 +495,7 @@ export default{
 	                        message: '充值成功'
                     	});
 
-                    	
+
 
                   	}else{
                   		this.$message({
@@ -513,7 +513,7 @@ export default{
 
             })
 
-			 
+
 		},
 
 		// 重写卡
@@ -527,28 +527,28 @@ export default{
 
           return
         }
-      
+
 		 	      this.loading = true
 
             var params = {
-                UserId:window.sessionStorage.getItem('id'),        
+                UserId:window.sessionStorage.getItem('id'),
                 RegionCode:window.sessionStorage.getItem('RegionCode'),
                 HouseRegionCode:this.HouseRegionCode,
-                time:this.dataUtil.formatTime1(new Date()) 
+                time:this.dataUtil.formatTime1(new Date())
             }
 
-             console.log(JSON.stringify(params));
-          
+           //  console.log(JSON.stringify(params));
+
               var encryptParams = {
                 evalue:this.$encrypt(JSON.stringify(params))
               }
 
-              console.log(this.$encrypt(JSON.stringify(params)))
+             // console.log(this.$encrypt(JSON.stringify(params)))
 
               this.http.post(this.api.baseUrl+this.api.ReOprtByHouseCode,encryptParams)
               .then(result=>{
               		this.loading = false
-                  	console.log(result)
+                  //	console.log(result)
                   	if (result.status == '成功') {
 
                   		if (result.LastRecord != '') {
@@ -561,7 +561,7 @@ export default{
 	                        message: '重写成功'
                     	});
 
-                    	
+
 
                   	}else{
                   		this.$message({
@@ -570,7 +570,7 @@ export default{
                     	});
                   	}
 
-                  	
+
                   	this.resetShow()
                   	this.resetDisabled()
 					this.show0 = true
@@ -587,14 +587,14 @@ export default{
           if (!this.ICCard.readerOpen()) {
               this.$message({
                   type: 'error',
-                  message: "连接读卡器失败"                
+                  message: "连接读卡器失败"
               });
-             
+
               this.ICCard.readerClose()
               return false
           }else{
               this.ICCard.readerClose()
-              console.log('读卡器连接成功')
+             // console.log('读卡器连接成功')
               return true
           }
       },
@@ -613,7 +613,7 @@ export default{
 
       this.CustomerInfo.MeterAddr = ''
       this.CustomerInfo.CurrentUser = ''
-      
+
       this.CurrentPara.RemainMoney = ''
       this.CurrentPara.BalanceStatu = ''
       this.CurrentPara.RelayStatu = ''
@@ -622,7 +622,7 @@ export default{
       this.LastRecord.Name = ''
       this.LastRecord.Money = ''
       this.LastRecord.Time = ''
-      
+
 		},
 
 
@@ -669,10 +669,10 @@ export default{
                     for (var k = 0; k < houses.length; k++) {
                         // console.log('遍历'+houses[K].code)
                         if (houses[k].code == this.HouseRegionCode) {
-                            console.log('匹配到')
+                           // console.log('匹配到')
                             return fifthNames[j].label
                         }
-                        
+
                     }
                 }
             }
@@ -686,7 +686,7 @@ export default{
                 if (node.level == "6") {
                     this.HouseRegionName = node.label
                     this.HouseRegionCode = node.code
-                }  
+                }
 
             }
         },
@@ -706,7 +706,7 @@ export default{
         	this.resetAllStatus()
         	this.show0 = true
             this.FifthRegionName = this.findFifthRegionNameByHouseName()
-            console.log(this.FifthRegionName)
+           // console.log(this.FifthRegionName)
         },
 
         CurrentPara(newVal){
@@ -749,7 +749,7 @@ export default{
 .el-input .is-disabled .el-input__inner{
   color: #000 !important
 }
-	
+
 </style>
 
 

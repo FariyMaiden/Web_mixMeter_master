@@ -35,7 +35,7 @@
 	      :label="item.label"
 	      :prop="item.id"
 	      :width="item.width"
-	      >
+	      :key="index">
 	    </el-table-column>
 
 
@@ -106,16 +106,16 @@ export default{
 					return 'normal'
 				}else {
 					return 'error'
-				}			
+				}
 			}
-	
+
 		},
 
 		/**
 		*分页控制器的方法
 		*/
       	handleCurrentChange(val) {
-        	console.log(`当前页: ${val}`);
+        //	console.log(`当前页: ${val}`);
         	this.showTableData = this.partOfTableData.slice((val-1)*10, val *10)
       	},
 
@@ -132,27 +132,27 @@ export default{
 			}
 
       		this.loading = true
-      		var params = {     
+      		var params = {
       			UserId:window.sessionStorage.getItem('id'),
       			TimeStart:this.dataUtil.formatTime1(this.startDate),
       			TimeEnd:this.dataUtil.formatTime1(this.endDate),
-      			time:this.dataUtil.formatTime1(new Date()) 
+      			time:this.dataUtil.formatTime1(new Date())
       		}
 
-      		  console.log(params);
-          
+      		//  console.log(params);
+
 	          var encryptParams = {
 	            evalue:this.$encrypt(JSON.stringify(params))
 	          }
 
-	          console.log(this.$encrypt(JSON.stringify(params)))
+	         // console.log(this.$encrypt(JSON.stringify(params)))
 
 	          this.http.post(this.api.baseUrl+this.api.QueryOprtcord,encryptParams)
 	          .then(result=>{
 	            this.loading = false
-	            console.log(result)
+	          //  console.log(result)
 	            if (result.status == '成功') {
-	            	
+
 	                this.$message({
 	                  type: 'success',
 	                  message: '查询成功!'
@@ -170,16 +170,16 @@ export default{
 	               });
 
 	            }
-	            
-	            
-	                    
+
+
+
 	          })
       	}
 
 	},
 	mounted(){
 		var date = new Date()
-		
+
 		this.startDate = new Date(date.getTime()-2*24*60*60*1000)
 
 		this.endDate = new Date()

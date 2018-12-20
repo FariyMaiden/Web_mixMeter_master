@@ -1,6 +1,6 @@
 <!-- 客户信息管理 -->
 <template>
-	<div v-loading="loading" element-loading-text="拼命加载中">
+	<div v-loading="loading" element-loading-text="拼命加载中" v-if="showIf">
 		<!-- <div>
 			<el-select v-model="status" placeholder="请选择审核状态">
 			    <el-option
@@ -18,19 +18,19 @@
 		    :cell-class-name="tableCellName"
 		    style="width: 100%">
 
-		    <el-table-column 
+		    <el-table-column
 		      v-for="item in tableHead"
 		      :label="item.label"
 		      :prop="item.id"
-		      :width='item.width'>
+		      :width='item.width' :key="item.index">
 		    </el-table-column>
 
-	         <el-table-column label="操作">	
+	         <el-table-column label="操作">
 				<template slot-scope="scope" >
 					<div v-if="scope.row.Memo == '0'">
 						<el-button @click="ReviewAccessHouseInfo(scope.row)" type="text" size="small">审核</el-button>
 	        			<el-button type="text" size="small" @click="ApplyForRemoveHouseInfo(scope.row)">取消</el-button>
-					</div>	
+					</div>
      			</template>
 	    	 </el-table-column>
 		  </el-table>
@@ -44,16 +44,19 @@
 		      layout="total, prev, pager, next,jumper"
 		      :total="tableData.length">
 		    </el-pagination>
-	  	</div>	
+	  	</div>
 	</div>
 </template>
 <script>
 export default{
 	data(){
 		return{
+
+      showIf :true,
+
 			loading:false,
 			currentPage:1,//当前页
-		
+
 			// 表格信息
 			tableHead:[
 			{
@@ -98,15 +101,15 @@ export default{
 					return 'normal'
 				}else {
 					return 'error'
-				}			
+				}
 			}
-	
+
 		},
 		/**
 		*分页控制器的方法
 		*/
       	handleCurrentChange(val) {
-        	console.log(`当前页: ${val}`);
+        //	console.log(`当前页: ${val}`);
         	this.showTableData = this.partOfTableData.slice((val-1)*10, val *10)
       	},
       	/**
@@ -114,13 +117,13 @@ export default{
       	*/
       	filterTableData(node){
       		if (window.sessionStorage.getItem('menuName') == 'customerInfo') {
-      			
+
       			if(node.level == "4"){
       				this.areaTableData = this.tableData.filter(element=>{
       					return (element.FourthRegionCode == node.code)
       				});
       			}else if(node.level == "5"){
-      				
+
       				this.areaTableData = this.tableData.filter(element=>{
       					return (element.FifthRegionCode == node.code)
       				})
@@ -136,7 +139,7 @@ export default{
       				this.partOfTableData[i].index = (i+1).toString()
       			}
       			this.showTableData = this.partOfTableData.slice(0, 10)
-      			
+
       		}
       	},
 
@@ -152,18 +155,18 @@ export default{
 		        time:this.dataUtil.formatTime1(new Date())
 		      }
 
-		      console.log(params);
-		      
+		     // console.log(params);
+
 		      var encryptParams = {
 		        evalue:this.$encrypt(JSON.stringify(params))
 		      }
 
-		      console.log(this.$encrypt(JSON.stringify(params)))
+		     // console.log(this.$encrypt(JSON.stringify(params)))
 
 		      this.http.post(this.api.baseUrl+this.api.QureyHouseApplyInfo,encryptParams)
 		      .then(result=>{
 		      	this.loading = false
-		      	console.log(result)
+		      //	console.log(result)
 		      	if (result.status == '成功') {
 		      		this.tableData = result.data
 		      		this.areaTableData = this.tableData
@@ -171,9 +174,9 @@ export default{
 		      		this.showTableData = this.partOfTableData.slice(0,10)
 		      		this.currentPage = 1
 		      	}
-		        
-		        
-		                
+
+
+
 		      })
       	},
 
@@ -189,18 +192,18 @@ export default{
 		        time:this.dataUtil.formatTime1(new Date())
 		      }
 
-		      console.log(params);
-		      
+		      //console.log(params);
+
 		      var encryptParams = {
 		        evalue:this.$encrypt(JSON.stringify(params))
 		      }
 
-		      console.log(this.$encrypt(JSON.stringify(params)))
+		     // console.log(this.$encrypt(JSON.stringify(params)))
 
 		      this.http.post(this.api.baseUrl+this.api.ReviewAccessHouseInfo,encryptParams)
 		      .then(result=>{
 		      	this.loading = false
-		      	console.log(result)
+		      //	console.log(result)
 		      	if (result.status == '成功') {
 		      		this.QureyHouseApplyInfo()
 
@@ -216,8 +219,8 @@ export default{
 	          			message: result.data,
 	          			type: 'error'
 	        		});
-		      	}		        
-		                
+		      	}
+
 		      })
       	},
 
@@ -232,19 +235,19 @@ export default{
 		        time:this.dataUtil.formatTime1(new Date())
 		      }
 
-		      console.log('取消审核')
-		      console.log(params);
-		      
+		     // console.log('取消审核')
+		     // console.log(params);
+
 		      var encryptParams = {
 		        evalue:this.$encrypt(JSON.stringify(params))
 		      }
 
-		      console.log(this.$encrypt(JSON.stringify(params)))
+		     // console.log(this.$encrypt(JSON.stringify(params)))
 
 		      this.http.post(this.api.baseUrl+this.api.ApplyForRemoveHouseInfo,encryptParams)
 		      .then(result=>{
 		      	this.loading = false
-		      	console.log(result)
+		      //	console.log(result)
 		      	if (result.status == '成功') {
 		      		this.QureyHouseApplyInfo()
 
@@ -260,14 +263,24 @@ export default{
 	          			message: result.data,
 	          			type: 'error'
 	        		});
-		      	}		        
-		                
+		      	}
+
 		      })
       	},
 
-	},
+  },
 
-	
+
+ // 判断用户没有操作此权限的功能
+  // created() {
+  //   if(window.sessionStorage.beijin === '100'){
+  //     window.alert('您没有操作此功能的权限~')
+  //     this.showIf = false
+  //     console.log(this.showIf)
+  //   }
+  // },
+
+
 
 	computed:{
 		treeNode(){
@@ -280,13 +293,13 @@ export default{
 		}
 	},
 	mounted(){
-		var that = this 
+		var that = this
 		this.loading = true
 		setTimeout(function(){
 			that.QureyHouseApplyInfo()
 		},2000)
 	}
-}	
+}
 </script>
 <style scoped>
 

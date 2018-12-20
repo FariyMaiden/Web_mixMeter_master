@@ -37,16 +37,16 @@
 			    </el-date-picker>
 
 	  		</div>
-			<el-button type="primary" @click='QureyTransactionFile(code)'>查询</el-button>			
-			
-			<div class="right">		
+			<el-button type="primary" @click='QureyTransactionFile(code)'>查询</el-button>
+
+			<div class="right">
 				<el-select v-model.lazy="name1" placeholder="交易方式" clearable @change="selectChange">
 			    <el-option
 
 			      v-for="item in tradeStyle"
 			      v-if="tradeStyle.length > 0 && item!='' "
 			      :label="item"
-			      :value="item">
+			      :value="item" :key="item.index">
 			    </el-option>
 				</el-select>
 				<el-select v-model.lazy="name2" placeholder="审核状态" clearable @change="selectChange">
@@ -54,7 +54,7 @@
 				      v-for="item in AuditState"
 				      v-if="AuditState.length > 0 && item!='' "
 				      :label="item"
-				      :value="item">
+				      :value="item" :key="item.index">
 				    </el-option>
 				</el-select>
 				<el-select v-model.lazy="name3" placeholder="交易类型" clearable @change="selectChange">
@@ -62,7 +62,7 @@
 				      v-for="item in tradeType"
 				      v-if="tradeType.length > 0 && item!='' "
 				      :label="item"
-				      :value="item">
+				      :value="item" :key="item.index">
 				    </el-option>
 				</el-select>
 				<el-button type="primary">导出表格</el-button>
@@ -76,10 +76,10 @@
 		    <el-table-column type="expand">
 		      <template slot-scope="props">
 		        <el-form label-position="left" inline class="demo-table-expand" >
-		          <el-form-item  v-for="(item,index) in tableHead" v-if="index > 8" :label="item.label" >
+		          <el-form-item  v-for="(item,index) in tableHead" v-if="index > 8" :label="item.label" :key="index">
 		            <span>{{ props.row[item.id] }}</span>
 		          </el-form-item>
-		     
+
 		        </el-form>
 		      </template>
 		    </el-table-column>
@@ -90,11 +90,11 @@
 		      :label="item.label"
 		      :prop="item.id"
 		      :width="item.width"
-		      >
+		      :key="index">
 		    </el-table-column>
 
-		     <el-table-column 
-		    	label="操作">	
+		     <el-table-column
+		    	label="操作">
 				<template slot-scope="scope">
 	       			<el-button v-if="scope.row.AuditState == '未审核' " @click="AuditTransaction(scope.row)" type="text" size="small">审核</el-button>
      			</template>
@@ -102,10 +102,10 @@
 
 		  </el-table>
 			<div style='text-align:center;font-size:16px;margin-top:20px'>
-				<span style='margin-right:60px'>实收：{{this.totalMoney}}元</span>	
-				<span style='margin-right:60px'>充值/开户：{{this.predictMoney}}元</span> 
-				<span style='margin-right:60px'>退费：{{this.moveMoney}}元</span> 
-				<span style='margin-right:20px'>补助：{{this.helpMoney}}元</span> 
+				<span style='margin-right:60px'>实收：{{this.totalMoney}}元</span>
+				<span style='margin-right:60px'>充值/开户：{{this.predictMoney}}元</span>
+				<span style='margin-right:60px'>退费：{{this.moveMoney}}元</span>
+				<span style='margin-right:20px'>补助：{{this.helpMoney}}元</span>
 			</div>
 		  <div class="block pagination">
 		    <el-pagination
@@ -118,7 +118,7 @@
 	  	  </div>
 	</div>
 </template>
-<script> 
+<script>
 export default{
 	data(){
 		return{
@@ -165,7 +165,7 @@ export default{
 			{
 				label:'交易时间',
 				id:'TransactionTime',
-				width:180	
+				width:180
 			},
 			{
 				label:'交易状态',
@@ -219,14 +219,14 @@ export default{
 					return 'normal'
 				}
 			}
-	
+
 		},
 
         /**
 		*分页控制器的方法
 		*/
       	handleCurrentChange(val) {
-        	console.log(`当前页: ${val}`);
+        //	console.log(`当前页: ${val}`);
         	this.showTableData = this.partOfTableData.slice((val-1)*10, val *10)
       	},
 
@@ -254,23 +254,23 @@ export default{
       			UserId:window.sessionStorage.getItem('id'),
       			TimeStart:this.dataUtil.formatTime1(this.startDate),
        			TimeEnd:this.dataUtil.formatTime1(this.endDate),
-      			time:this.dataUtil.formatTime1(new Date()) 
+      			time:this.dataUtil.formatTime1(new Date())
       		}
 
-      		  console.log(params);
-          
+      		//  console.log(params);
+
 	          var encryptParams = {
 	            evalue:this.$encrypt(JSON.stringify(params))
 	          }
 
-	          console.log(this.$encrypt(JSON.stringify(params)))
+	         // console.log(this.$encrypt(JSON.stringify(params)))
 
 	          this.http.post(this.api.baseUrl+this.api.QureyTransactionFile,encryptParams)
 	          .then(result=>{
 	            this.loading = false
-	            console.log(result)
+	           // console.log(result)
 	            if (result.status == '成功') {
-	            	
+
 	                this.$message({
 	                  type: 'success',
 	                  message: '查询成功!'
@@ -289,9 +289,9 @@ export default{
 	               });
 
 	            }
-	            
-	            
-	                    
+
+
+
 	          })
       	},
 
@@ -299,30 +299,30 @@ export default{
       	*审核订单
       	*/
       	AuditTransaction(row){
-      		console.log(row)
+      	//	console.log(row)
 
       		// this.loading = true
 
       		var params = {
       			TransactionOrder:row.TransactionOrder,
       			UserId:window.sessionStorage.getItem('id'),
-      			time:this.dataUtil.formatTime1(new Date()) 
+      			time:this.dataUtil.formatTime1(new Date())
       		}
 
-      		  console.log(params);
-          
+      		//  console.log(params);
+
 	          var encryptParams = {
 	            evalue:this.$encrypt(JSON.stringify(params))
 	          }
 
-	          console.log(this.$encrypt(JSON.stringify(params)))
+	        //  console.log(this.$encrypt(JSON.stringify(params)))
 
 	          this.http.post(this.api.baseUrl+this.api.AuditTransaction,encryptParams)
 	          .then(result=>{
 	            this.loading = false
-	            console.log(result)
+	          //  console.log(result)
 	            if (result.status == '成功') {
-	            	
+
 	                this.$message({
 	                  type: 'success',
 	                  message: '审核成功!'
@@ -341,9 +341,9 @@ export default{
 	               });
 
 	            }
-	            
-	            
-	                    
+
+
+
 	          })
       	},
 
@@ -381,14 +381,14 @@ export default{
 
 		// 筛选数据
 		filterTableData(node){
-		
+
       		if (window.sessionStorage.getItem('menuName') == 'AccoundReconciliation') {
-     
+
       			if(node.level == "4"){
       				this.areaTableData = this.tableData
-      				
+
       			}else if(node.level == "5"){
-      				
+
       				this.areaTableData = this.tableData.filter(element=>{
       					return (element.FifthRegionCode == node.code)
       				})
@@ -405,7 +405,7 @@ export default{
       			}
 
       			this.showTableData = this.partOfTableData.slice(0, 10)
-      			
+
       		}
       	},
 
@@ -436,7 +436,7 @@ export default{
 			var money = 0
 			this.partOfTableData.forEach(element=>{
 				if (element.TransactionType == '充值' || element.TransactionType == '开户') {
-					money +=  parseInt(element.TransactionAmount) 
+					money +=  parseInt(element.TransactionAmount)
 				}
 			})
 
@@ -447,7 +447,7 @@ export default{
 			var money = 0
 			this.partOfTableData.forEach(element=>{
 				if (element.TransactionType == '异常退费' || element.TransactionType == '销户退费') {
-					money +=  parseInt(element.TransactionAmount) 
+					money +=  parseInt(element.TransactionAmount)
 				}
 			})
 
@@ -458,7 +458,7 @@ export default{
 			var money = 0
 			this.partOfTableData.forEach(element=>{
 				if (element.TransactionMethod == '补助') {
-					money +=  parseInt(element.TransactionAmount) 
+					money +=  parseInt(element.TransactionAmount)
 				}
 			})
 
@@ -503,24 +503,24 @@ export default{
 	},
 	mounted(){
 		var date = new Date()
-		
+
 		this.startDate = new Date(date.getTime()-2*24*60*60*1000)
 
 		this.endDate = new Date()
 
 		this.loading = true
 		setTimeout(()=>{
-			this.QureyTransactionFile(this.code)	
+			this.QureyTransactionFile(this.code)
 		},2000)
-		
-	
+
+
 	}
-}	
+}
 </script>
 <style scoped>
 .right{
 	display: inline-block;
-	float: right;
+	/* float: right; */
 }
 
 .left{

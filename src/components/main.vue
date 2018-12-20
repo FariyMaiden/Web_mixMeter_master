@@ -21,7 +21,7 @@
 
               <!-- <span class="set" > -->
                 <el-tooltip class="item set" effect="light" content="修改密码" placement="bottom" >
-                  <img src="../assets/psd.png" style="width:20px;height:20px;outline: none"@click="psdDialogVisible = true">
+                  <img src="../assets/psd.png" style="width:20px;height:20px;outline: none" @click="psdDialogVisible = true">
                 </el-tooltip>
 
               <!-- </span> -->
@@ -54,7 +54,7 @@
             <!-- <el-col :offset="1" :span="2">
               <div style="font-size:14px; cursor: pointer;" @click="fistPageClick">首页</div>
             </el-col> -->
-            <el-col :offset="1":span="23">
+            <el-col :offset="1" :span="23">
 
                 <el-menu
                   menu-trigger='hover'
@@ -66,15 +66,15 @@
                   active-text-color="#ffd04b"
                   @select="handleSelect">
 
-                    <el-submenu v-for="(subitem,subIndex) in menus" :index="subitem.index" >
+                    <el-submenu v-for="(subitem,subIndex) in menus" :index="subitem.index"  :key="subIndex">
                       <template slot="title">
                         <div @click='fistPageClick(subitem.index)'>{{subitem.name}}</div>
                       </template>
                       <router-link
                         v-for='child in subitem.child'
                         :to="{name:child.index}"
-                        @click.native="recordIndex(child.index,subIndex)">
-                        <el-menu-item :index="child.index">
+                        @click.native="recordIndex(child.index,subIndex)" :key="child.index">
+                        <el-menu-item :index="child.index" >
                           {{child.name}}
                         </el-menu-item>
                       </router-link>
@@ -192,7 +192,8 @@
         <div style="height: 300px;overflow-y: auto;" v-if="versions.length > 0">
           <el-steps direction="vertical" :active="1">
             <el-step :title="versions[0].Ver" icon="el-icon-refresh" :description="versions[0].Info"></el-step>
-            <el-step v-for="(item,index) in versions" v-if="index > 0" :title="item.Ver" icon="el-icon-time" :description="versions[0].Info"></el-step>
+            <el-step v-for="(item,index) in versions" v-if="index > 0" :title="item.Ver" icon="el-icon-time" :description="versions[0].Info"
+              :key="index"></el-step>
           </el-steps>
         </div>
 
@@ -305,7 +306,7 @@ export default {
       // 菜单栏事件
 
       handleSelect(key, keyPath) {
-          console.log(keyPath);
+         // console.log(keyPath);
           var selectFatherItem = this.menus.filter(element=> {
             return (element.index == keyPath[0]);
           });
@@ -342,7 +343,7 @@ export default {
 
       // 树的事件
       handleNodeClick(data) {
-        console.log(data)
+        //console.log(data)
         this.$store.dispatch('setClickTreeData',data)
 
       },
@@ -354,7 +355,7 @@ export default {
 
       // 级联选择器事件
        handleChange(value) {
-        console.log(value);
+       // console.log(value);
       },
 
       /**
@@ -379,9 +380,9 @@ export default {
       */
       getMenus(){
 
-        console.log(this.dataUtil.formatTime1(new Date()) )
+       // console.log(this.dataUtil.formatTime1(new Date()) )
 
-        console.log('请求menus')
+       // console.log('请求menus')
         this.loading = true
         var params = {
           UserID:window.sessionStorage.getItem('id'),
@@ -393,14 +394,14 @@ export default {
           evalue:this.$encrypt(JSON.stringify(params))
         }
 
-        console.log(this.$encrypt(JSON.stringify(params)))
+       // console.log(this.$encrypt(JSON.stringify(params)))
 
 
         this.http.post(this.api.baseUrl+this.api.menus,encryptParams)
         .then(result=>{
           this.loading = false
           // var result= JSON.parse(res.data.replace(/<[^>]+>/g, "").replace(/[' '\r\n]/g, ""))
-           console.log(result)
+          // console.log(result)
           if (result.status=="成功") {
             // statement
             this.menus = result.menus
@@ -481,11 +482,11 @@ export default {
             evalue:this.$encrypt(JSON.stringify(params))
           }
 
-        console.log(this.$encrypt(JSON.stringify(params)))
+        //console.log(this.$encrypt(JSON.stringify(params)))
 
         this.http.post(this.api.baseUrl + this.api.QueryUserInfoByID,encryptParams)
         .then(result=>{
-          console.log(result)
+         // console.log(result)
           if (result.status == '成功') {
             this.informationForm.name = result.data[0].UserName
             this.informationForm.mobilePhone = result.data[0].MobilePhone
@@ -515,18 +516,18 @@ export default {
             time:this.dataUtil.formatTime1(new Date())
           }
 
-          console.log(params);
+          //console.log(params);
 
           var encryptParams = {
             evalue:this.$encrypt(JSON.stringify(params))
           }
 
-          console.log(this.$encrypt(JSON.stringify(params)))
+         // console.log(this.$encrypt(JSON.stringify(params)))
 
           this.http.post(this.api.baseUrl+this.api.UpdateUserInfo,encryptParams)
           .then(result=>{
             this.loading = false
-            console.log(result)
+           // console.log(result)
             if (result.status == '成功') {
                 this.$message({
                   type: 'success',
@@ -560,17 +561,17 @@ export default {
           time:this.dataUtil.formatTime1(new Date())
         }
 
-        console.log(JSON.stringify(params));
+       // console.log(JSON.stringify(params));
 
         var encryptParams = {
           evalue:this.$encrypt(JSON.stringify(params))
         }
 
-        console.log(this.$encrypt(JSON.stringify(params)))
-        console.log(this.api.baseUrl+this.api.VersionDescription)
+       // console.log(this.$encrypt(JSON.stringify(params)))
+       // console.log(this.api.baseUrl+this.api.VersionDescription)
         this.http.post(this.api.baseUrl+this.api.VersionDescription,encryptParams)
             .then(result=>{
-              console.log('jjj')
+             // console.log('jjj')
               this.dialogLoading = false
 
               if (result.status == "成功") {
@@ -581,7 +582,7 @@ export default {
 
                 this.versions = result.data
 
-                console.log(result.data)
+               // console.log(result.data)
               }else{
                 this.dialogLoading = false
                 this.$message({
@@ -610,8 +611,13 @@ export default {
 
         if (typeof(father[index]) != 'undefined') {
 
-          // father[index].lastChild.style.display = "none"
+          //father[index].lastChild.style.display = "none"
+         // father[index].getElementsByClassName('el-menu')[0].style.display = "none"
+         if (typeof(father[index]) != 'undefined'
+          && father[index].getElementsByClassName('el-menu').length != 0) {
+         // console.log(father[index].getElementsByClassName('el-menu'))
           father[index].getElementsByClassName('el-menu')[0].style.display = "none"
+        }
         }
 
 
@@ -629,7 +635,7 @@ export default {
         }
 
         if (name == "GateWayControl") {
-          console.log('网关数')
+         // console.log('网关数')
           this.showTreeData = this.$store.state.treeData.GWList
         }else{
           this.showTreeData = this.$store.state.treeData.Commmunity
@@ -661,18 +667,18 @@ export default {
             time:this.dataUtil.formatTime1(new Date())
           }
 
-          console.log(params);
+         // console.log(params);
 
           var encryptParams = {
             evalue:this.$encrypt(JSON.stringify(params))
           }
 
-          console.log(this.$encrypt(JSON.stringify(params)))
+         // console.log(this.$encrypt(JSON.stringify(params)))
 
           this.http.post(this.api.baseUrl+this.api.UpdateUserPassWord,encryptParams)
           .then(result=>{
             this.loading = false
-            console.log(result)
+           // console.log(result)
             if (result.status == '成功') {
                 this.$message({
                   type: 'success',
@@ -728,7 +734,7 @@ export default {
   },
   computed:{
     treeData(){
-      console.log('treedata改变')
+     // console.log('treedata改变')
       return this.$store.state.treeData
     }
   },
